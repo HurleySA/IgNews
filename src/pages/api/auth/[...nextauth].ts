@@ -21,16 +21,14 @@ export default NextAuth({
 
         try{
           await fauna.query(
-            If(Not(Exists(Match(Index('user_by_email'), Casefold(user.email)))),
-            Create(
-              Collection('users'),
-              {
-                data: { email }
-              }
-            ),
+            If(
+            
+            Not(Exists(Match(Index('user_by_email'), Casefold(user.email)))),
+
+            Create(Collection('users'),{ data: { email } }),
+
             Get(Match(Index('user_by_email'), Casefold(user.email)))
             )
-           
           )
           return true;
         }catch {
